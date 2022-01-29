@@ -1,0 +1,5 @@
+---
+# defaults file for php
+
+php_version: "7.4"
+nginx_document_root: "/var/www/html"

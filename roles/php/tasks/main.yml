@@ -1,0 +1,29 @@
+---
+# tasks file for php
+
+- name: Install php-fpm
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - "php{{ php_version }}"
+    - "php{{ php_version }}-fpm"
+
+- name: Copy website files to nginx server's document root
+  ansible.builtin.copy:
+    src: files/index.php
+    dest: "{{ nginx_document_root }}"
+    mode: preserve
+
+- name: Update FPM Configuration
+  ansible.builtin.lineinfile:
+    dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+    regexp: "^listen ="
+    line: "listen = {{ tcp_socket }}"
+  notify: Restart php-fpm
+
+- name: Ensure php-fpm is running
+  ansible.builtin.service:
+    name: "php{{ php_version }}-fpm"
+    state: started

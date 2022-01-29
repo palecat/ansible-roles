@@ -1,0 +1,5 @@
+[php_fpm_server]
+172.16.248.134
+
+[nginx_server]
+172.16.248.133

@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - vars/vault.yml
+
+  roles:
+    - role: roles/users
+      vars:
+        ssh_public_key: "{{ vault_ssh_public_key }}"
+        default_user_password: "{{ vault_user_password }}"
+
+- hosts: nginx_server
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - role: roles/http
+
+- hosts: php_fpm_server
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - role: roles/php

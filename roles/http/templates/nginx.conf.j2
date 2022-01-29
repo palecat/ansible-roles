@@ -1,0 +1,13 @@
+server {
+  listen {{ nginx_port }};
+  index {{ nginx_index }};
+
+  root {{ nginx_document_root }};
+
+  location ~* \.php$ {
+    fastcgi_pass    {{ tcp_socket }};
+    include         fastcgi_params;
+    fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+    fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+  }
+}

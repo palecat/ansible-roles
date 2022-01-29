@@ -1,0 +1,6 @@
+---
+# defaults file for http
+
+nginx_document_root: "/var/www/html"
+nginx_index: "index.php"
+nginx_port: "80"
